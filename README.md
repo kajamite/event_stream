@@ -103,7 +103,7 @@ event_stream includes a test_helper module that provides some assertions, like `
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'event_stream', :git => 'git@github.com:backupify/event_stream.git'
+gem 'event_stream', :git => 'https://github.com/kajamite/event_stream.git'
 ```
 
 And then execute:
