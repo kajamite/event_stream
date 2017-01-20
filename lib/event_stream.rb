@@ -1,9 +1,16 @@
 require 'ostruct'
+
+# stream
 require_relative 'event_stream/event'
 require_relative 'event_stream/stream'
 require_relative 'event_stream/subscriber'
 require_relative 'event_stream/registry'
 require_relative 'event_stream/subscriber_dsl'
+
+# collector
+require_relative 'event_collector/collector'
+require_relative 'event_collector/collector_registry'
+require_relative 'event_collector/event_collector'
 
 module EventStream
   class << self
