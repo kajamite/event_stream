@@ -13,7 +13,7 @@ module EventStream
         event = tags[0]
       else
         tt = tags.select{ |i| i.is_a? Symbol }
-        raise new ArgumentError("tags doesn't contain symbol tags") if tt.empty?
+        raise ArgumentError, 'tags should be a list of one or more symbols'  if tt.empty?
         event = Event.new(attrs.merge(:tags => tt))
       end
 
