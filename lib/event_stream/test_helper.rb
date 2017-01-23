@@ -24,7 +24,7 @@ module EventStream
     end
 
     def assert_event_published(event_name)
-      assert_event_matching("No event with name #{event_name}") { |event| event.name == event_name }
+      assert_event_matching("No event with name #{event_name}") { |event| event.tags.include? event_name }
     end
 
     def find_published_event(&predicate)

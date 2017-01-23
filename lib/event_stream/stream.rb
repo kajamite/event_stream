@@ -7,11 +7,16 @@ module EventStream
     # Publishes an event to this event stream
     # @param name [Symbol] name of this event
     # @param attrs [Hash] optional attributes representing this event
-    def publish(name_or_event, attrs = {})
-      event = case name_or_event
-              when Event then name_or_event
-              else Event.new(attrs.merge(:name => name_or_event))
-              end
+    def publish(*tags, **attrs)
+
+      if tags[0].is_a? Event
+        event = tags[0]
+      else
+        tt = tags.select{ |i| i.is_a? Symbol }
+        raise new ArgumentError("tags doesn't contain symbol tags") if tt.empty?
+        event = Event.new(attrs.merge(:tags => tt))
+      end
+
       @subscribers.each { |l| l.consume(event) }
     end
 

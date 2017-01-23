@@ -19,11 +19,11 @@ class EventStreamTest < Minitest::Should::TestCase
     should 'publish an event and allow a subscriber to consume it' do
       event = pub_sub(:test)
       assert event
-      assert_equal :test, event.name
+      assert_equal [:test], event.tags
     end
 
     should 'allow publishing of pre-constructed events' do
-      event = EventStream::Event.new(name: 'test', a: 1)
+      event = EventStream::Event.new(tags: :test, a: 1)
       subscribed = pub_sub(event)
       assert_equal event, subscribed
     end
@@ -77,7 +77,7 @@ class EventStreamTest < Minitest::Should::TestCase
 
       EventStream[:test_stream].publish(:test_event)
       assert test_event, "Event was expected to be published to the test stream"
-      assert_equal test_event.name, :test_event
+      assert test_event.tags.include?(:test_event)
 
       test_event = nil
 
