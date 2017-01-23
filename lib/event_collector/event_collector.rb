@@ -24,5 +24,9 @@ module EventCollector
     alias :default :default_collector
 
     def_delegators :default_collector, :<<, :to_a
+
+    def clear_all
+      CollectorRegistry.collectors&.each{ |k, c| c&.clear }
+    end
   end
 end

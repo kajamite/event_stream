@@ -8,12 +8,13 @@ module EventCollector
     class_attribute :collectors
     self.collectors = { default: Collector.new }
 
-    def self.register(stream_name, stream)
-      collectors[stream_name] = stream
+    def self.register(collector_name, collector)
+      collectors[collector_name] = collector
     end
 
-    def self.lookup(stream_name)
-      collectors[stream_name] || (raise UnregisteredCollector)
+    def self.lookup(collector_name)
+      collectors[collector_name] = Collector.new if collectors[collector_name].nil?
+      collectors[collector_name] #|| (raise UnregisteredCollector)
     end
   end
 end

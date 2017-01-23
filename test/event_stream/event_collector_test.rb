@@ -7,7 +7,7 @@ class EventCollectorTest < Minitest::Should::TestCase
   end
 
   teardown do
-    EventCollector.default_collector.clear
+    EventCollector.clear_all
   end
 
   context 'an event collector' do
@@ -19,6 +19,11 @@ class EventCollectorTest < Minitest::Should::TestCase
 
     should 'be empty by default' do
       assert EventCollector.default.list.empty?
+    end
+
+    should 'can be auto created' do
+      EventCollector[:test_collector] << sample_event
+      assert_equal :test, EventCollector[:test_collector][0].name
     end
 
   end

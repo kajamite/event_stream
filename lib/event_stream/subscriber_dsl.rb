@@ -37,7 +37,7 @@ module EventStream
         self._event_stream = event_stream
       end
 
-      def on(filter, &action)
+      def on(filter = nil, &action)
         self._event_subscribers << Subscriber.create(filter, &action)
       end
 
