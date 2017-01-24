@@ -3,6 +3,7 @@ module EventStream
     def self.create(filter = nil, &action)
       filter ||= lambda { |e| true }
       filter_predicate = case filter
+                         when Array then lambda { |e| ([*e.tags] & filter).any? }
                          when Symbol, String then lambda { |e| [*e.tags]&.include? filter.to_sym }
                          when Regexp then lambda { |e| [*e.tags].join(' ').to_s =~ filter }
                          when Hash then lambda { |e| filter.all? { |k,v| e[k] === v } }

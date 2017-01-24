@@ -34,12 +34,12 @@ class EventStreamTest < Minitest::Should::TestCase
     end
 
     context 'filtering events' do
-      should 'allow subscription to event names' do
+      should 'allow subscription to event tags' do
         assert pub_sub(:test, {}, :test)
         refute pub_sub(:test, {}, :other_name)
       end
 
-      should 'allow subscription to event names by regex' do
+      should 'allow subscription to event tags by regex' do
         assert pub_sub(:test_event, {}, /test/)
         refute pub_sub(:test_event, {}, /no_match/)
       end
@@ -53,6 +53,11 @@ class EventStreamTest < Minitest::Should::TestCase
         predicate = lambda { |e| e.x > 1 }
         assert pub_sub(:test, { :x => 2, :y => :attr}, predicate)
         refute pub_sub(:test, { :x => 1, :y => :attr}, predicate)
+      end
+
+      should 'allow subscription via tags array' do
+        assert pub_sub([:a, :b, :c], {}, [:a, :b])
+        refute pub_sub([:a, :b, :c], {}, [:d, :e])
       end
 
     end

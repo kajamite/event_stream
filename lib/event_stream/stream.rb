@@ -12,7 +12,7 @@ module EventStream
       if tags[0].is_a? Event
         event = tags[0]
       else
-        tt = tags.select{ |i| i.is_a? Symbol }
+        tt = [*tags].flatten.select{ |i| i.is_a? Symbol }
         raise ArgumentError, 'tags should be a list of one or more symbols'  if tt.empty?
         event = Event.new(attrs.merge(:tags => tt))
       end
