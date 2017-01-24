@@ -8,7 +8,7 @@ Create an event subscription:
 
 ```ruby
 EventStream.subscribe(:my_event) do |event|
-  log("#{event.name}, #{event.description}")
+  log("#{event.tags}, #{event.description}")
 end
 ```
 Then fire an event:
@@ -19,14 +19,17 @@ EventStream.publish(:my_event, :description => "An example event.")
 
 An event is just an immutable value object with a name and a bundle of other attributes, so the use of `:description` here is arbitrary.
 
-Events can be subscribed to by name, as above, but many other ways are supported:
+Events can be subscribed to by tag or tags, as above, but many other ways are supported:
 
 ```ruby
 # Subscribe to all events
 EventStream.subscribe { |e| ... }
 
-# Subscribe to events with a given name
+# Subscribe to events with a given tag
 EventStream.subscribe(:my_event) { |e| ... }
+
+# Subscribe to events with a tag array
+EventStream.subscribe([:my_event, :your_event]) { |e| ... }
 
 # Subscribe to events based on a name regex
 EventStream.subscribe(/my/) { |e| ... }
