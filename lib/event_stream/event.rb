@@ -40,5 +40,38 @@ module EventStream
     def respond_to_missing?(method_name, include_private = false)
       @fields.has_key?(method_name) || super
     end
+
+    #
+    # Reserved methods
+    #
+
+    def tags
+      @fields[:tags]
+    end
+
+    def title
+      @fields[:title]
+    end
+
+    def message
+      @fields[:message]
+    end
+
+    def callstack
+      @fields[:callstack]
+    end
+
+    def exception
+      @fields[:exception]
+    end
+
+    def extra
+      @fields[:extra]
+    end
+
+    def models
+      @fields[:models]
+    end
+
   end
 end
