@@ -44,6 +44,11 @@ module EventStream
       def subscribe
         _event_subscribers.each { |subscriber| _event_stream.add_subscriber(subscriber) }
       end
+
+      def clear_subscribers
+        self._event_subscribers = []
+      end
+
     end
   end
 end
