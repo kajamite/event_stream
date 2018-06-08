@@ -5,12 +5,12 @@ module EventStream
     end
 
     # Publishes an event to this event stream
-    # @param name [Symbol] name of this event
+    # @param tags [Symbol || Array] name or names of of this event
     # @param attrs [Hash] optional attributes representing this event
-    def publish(*tags, **attrs)
+    def publish(tags, attrs={})
 
-      if tags[0].is_a? Event
-        event = tags[0]
+      if tags.is_a? Event
+        event = tags
       else
         tt = [*tags].flatten.select{ |i| i.is_a? Symbol }
         raise ArgumentError, 'tags should be a list of one or more symbols'  if tt.empty?

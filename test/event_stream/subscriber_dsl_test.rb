@@ -1,7 +1,7 @@
 require_relative '../test_helper'
 
 module EventStream
-  class SubscriberDSLTest < Minitest::Should::TestCase
+  class SubscriberDSLTest < Minitest::Test
 
     class MySubscriber
       include SubscriberDSL
@@ -17,26 +17,26 @@ module EventStream
       end
     end
 
-    context 'The Subscriber DSL' do
-      setup do
+    describe 'The Subscriber DSL' do
+      before do
         MySubscriber.events = []
       end
 
-      context 'the default stream' do
-        setup do
+      describe 'the default stream' do
+        before do
           EventStream.clear_subscribers
           MySubscriber.event_stream(EventStream.default_stream)
           MySubscriber.subscribe
         end
 
-        should 'handle a published event' do
+        it 'handle a published event' do
           EventStream.publish(:event, test: true)
           assert_equal 1, MySubscriber.events.count
         end
       end
 
-      context 'other event streams' do
-        setup do
+      describe 'other event streams' do
+        before do
           @stream = EventStream::Stream.new
           MySubscriber.event_stream(@stream)
 
@@ -44,7 +44,7 @@ module EventStream
           MySubscriber.subscribe
         end
 
-        should 'handle a published event' do
+        it 'handle a published event' do
           @stream.publish(:event, test: true)
           assert_equal 1, MySubscriber.events.count
         end
