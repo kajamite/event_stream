@@ -62,6 +62,27 @@ class EventStreamTest < Minitest::Test
         assert pub_sub([:a, :b, :c], {}, [:a, :b])
         refute pub_sub([:a, :b, :c], {}, [:d, :e])
       end
+
+      it 'allow publish string id' do
+        event = EventStream.publish('hello')
+        assert_equal 'hello', event.name
+        assert_equal :hello, event.tag
+        assert_equal [:hello], event.tags
+      end
+
+      it 'allow publish symbol id' do
+        event = EventStream.publish(:hello)
+        assert_equal 'hello', event.name
+        assert_equal :hello, event.tag
+        assert_equal [:hello], event.tags
+      end
+
+      it 'allow publish symbol array is' do
+        event = EventStream.publish(%i( world hello ))
+        assert_equal 'hello_world', event.name
+        assert_equal :hello, event.tag
+        assert_equal [:hello, :world], event.tags
+      end
     end
 
   end

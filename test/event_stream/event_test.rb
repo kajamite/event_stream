@@ -23,6 +23,13 @@ module EventStream
           assert event.respond_to?(:b)
           refute event.respond_to?(:c)
         end
+
+        it 'can be created with string, tag or tags ids' do
+          event = Event.new(name: 'hello')
+          assert_equal 'hello', event.name
+          assert_equal :hello, event.tag
+          assert_equal [:hello], event.tags
+        end
       end
 
       describe '#to_json' do
@@ -34,7 +41,7 @@ module EventStream
 
       describe '#from_json' do
         it 'deserialize from json' do
-          json = '{"a":1,"b":2}'
+          json  = '{"a":1,"b":2}'
           event = Event.from_json(json)
           assert_equal 1, event.a
           assert_equal 2, event.b
@@ -44,6 +51,17 @@ module EventStream
           assert_raises(JSON::ParserError) { Event.from_json('not valid') }
         end
       end
+
+      describe 'name works' do
+
+        it 'creates name from ordered tags' do
+          event = Event.new(tags: %i(world hello))
+
+          assert_equal event.name, 'hello_world'
+        end
+
+      end
+
     end
   end
 end

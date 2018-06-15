@@ -6,7 +6,7 @@ module EventStream
 
     # @param fields [Hash<Symbol, Object>] The attributes of this event
     def initialize(fields)
-      @fields = Hash[fields.map { |k,v| [k.to_sym, v] }].freeze
+      @fields = Hash[fields.map { |k, v| [k.to_sym, v] }].freeze
     end
 
     # An alternate field accessor
@@ -46,7 +46,27 @@ module EventStream
     #
 
     def tags
-      @fields[:tags]
+      if @fields[:tags]
+        @fields[:tags]
+      elsif name
+        [name.to_sym]
+      else
+        nil 
+      end
+    end
+
+    def tag
+      [*tags].first
+    end
+
+    def name
+      if @fields[:name]
+        @fields[:name]
+      elsif tags
+        [*tags].sort.join('_')
+      else
+        nil
+      end
     end
 
     def title

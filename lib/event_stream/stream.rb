@@ -5,19 +5,25 @@ module EventStream
     end
 
     # Publishes an event to this event stream
-    # @param tags [Symbol || Array] name or names of of this event
+    # @param id [String || Symbol || Array] name or tag/tags of of this event
     # @param attrs [Hash] optional attributes representing this event
-    def publish(tags, attrs={})
+    def publish(id, attrs = {})
 
-      if tags.is_a? Event
-        event = tags
+      event = case id
+      when String
+        Event.new(attrs.merge(name: id))
+      when Event
+        id
+      when Symbol, Array
+        tt = [*id].flatten.select { |i| i.is_a? Symbol }
+        raise ArgumentError, 'if id is an Array it should contain one or more symbols' if tt.empty?
+        Event.new(attrs.merge(:tags => tt.sort))
       else
-        tt = [*tags].flatten.select{ |i| i.is_a? Symbol }
-        raise ArgumentError, 'tags should be a list of one or more symbols'  if tt.empty?
-        event = Event.new(attrs.merge(:tags => tt))
+        raise ArgumentError, 'Wrong id argument type'
       end
 
       @subscribers.each { |l| l.consume(event) }
+      event 
     end
 
     # Registers a subscriber to this event stream.

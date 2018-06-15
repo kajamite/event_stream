@@ -29,7 +29,7 @@ module EventStream
       class_attribute :_event_stream
       attr_reader :event
       self._event_subscribers = []
-      self._event_stream = EventStream.default_stream
+      self._event_stream      = EventStream.default_stream
     end
 
     module ClassMethods

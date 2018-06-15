@@ -3,7 +3,8 @@ require 'active_support/core_ext/class/attribute'
 module EventStream
   class Registry
 
-    class UnregisteredStream < StandardError; end
+    class UnregisteredStream < StandardError;
+    end
 
     class_attribute :streams
     self.streams = { default: Stream.new }
