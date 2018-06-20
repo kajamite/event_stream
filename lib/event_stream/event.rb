@@ -62,6 +62,8 @@ module EventStream
     def name
       if @fields[:name]
         @fields[:name]
+      elsif @fields[:event_name]
+        @fields[:event_name]
       elsif tags
         [*tags].sort.join('_')
       else
